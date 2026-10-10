@@ -75,7 +75,16 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
         platform: platform.ar,
         offer: offer.title.ar,
       })
-      window.fbq?.('track', 'Lead', { content_name: offer.title.ar })
+      // أحداث Meta Pixel: Lead (لهدف العملاء المحتملين) و Purchase بسعر العرض (لهدف المبيعات)
+      const pixelData = {
+        content_name: offer.title.ar,
+        content_ids: [String(offer.id)],
+        content_type: 'product',
+        value: offer.price,
+        currency: 'DZD',
+      }
+      window.fbq?.('track', 'Lead', pixelData)
+      window.fbq?.('track', 'Purchase', pixelData)
       setForm(EMPTY_FORM)
       setSelectedOffer('')
       setStatus('idle')
