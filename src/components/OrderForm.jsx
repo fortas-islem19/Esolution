@@ -14,9 +14,9 @@ const EMPTY_FORM = {
   notes: '',
 }
 
-export default function OrderForm({ selectedOffer, setSelectedOffer }) {
+export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }) {
   const [form, setForm] = useState(EMPTY_FORM)
-  // status: 'idle' عادي | 'sending' جاري الإرسال | 'success' تم | 'error' خطأ
+  // status: 'idle' عادي | 'sending' جاري الإرسال | 'error' خطأ
   const [status, setStatus] = useState('idle')
 
   // تحديث أي حقل عند الكتابة فيه (حسب الخاصية name)
@@ -24,15 +24,16 @@ export default function OrderForm({ selectedOffer, setSelectedOffer }) {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault() // منع إعادة تحميل الصفحة
     setStatus('sending')
     try {
-      await sendToGoogleSheets({ ...form, offer: selectedOffer })
-      setStatus('success')
+      sendToGoogleSheets({ ...form, offer: selectedOffer })
       window.fbq?.('track', 'Lead', { content_name: selectedOffer })
       setForm(EMPTY_FORM)
       setSelectedOffer('')
+      setStatus('idle')
+      onSuccess() // الانتقال إلى صفحة الشكر
     } catch (err) {
       console.error(err)
       setStatus('error')
@@ -114,7 +115,6 @@ export default function OrderForm({ selectedOffer, setSelectedOffer }) {
             {status === 'sending' ? <><span className="spinner" /> جاري الإرسال...</> : 'إرسال الطلب 🚀'}
           </button>
 
-          {status === 'success' && <p className="msg success">✅ تم استلام طلبك بنجاح، سنتصل بك قريباً.</p>}
           {status === 'error' && <p className="msg error">❌ حدث خطأ، حاول مرة أخرى أو اتصل بنا.</p>}
         </form>
         </Reveal>
