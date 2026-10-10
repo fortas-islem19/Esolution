@@ -327,3 +327,47 @@ h1, h2 { letter-spacing: -0.01em; }
 .faq-item.is-open .faq-a { grid-template-rows: 1fr; }
 .faq-a p { overflow: hidden; padding: 0 24px; color: var(--muted); transition: padding 0.35s ease; }
 .faq-item.is-open .faq-a p { padding-bottom: 20px; }
+
+/* ============================================================
+   تحسينات الهاتف
+   ============================================================ */
+
+/* الحقول لا تتجاوز عرض الشاشة (نص خيارات العروض طويل) */
+.form label, .form-row > * { min-width: 0; }
+.form input, .form select, .form textarea { width: 100%; min-width: 0; }
+.form textarea { resize: vertical; }
+/* الهاتف والرابط يُكتبان من اليسار لليمين */
+.form input[dir='ltr'] { text-align: right; }
+.form input[dir='ltr']:focus, .form input[dir='ltr']:not(:placeholder-shown) { text-align: left; }
+
+/* الشريط العلوي الثابت لا يغطي عنوان القسم عند الضغط على رابط */
+section[id] { scroll-margin-top: 70px; }
+
+/* إزالة الوميض الأزرق عند اللمس */
+a, button, select { -webkit-tap-highlight-color: transparent; }
+
+@media (max-width: 768px) {
+  .section { padding: 56px 0; }
+  .section-sub { margin-bottom: 32px; }
+  .card { padding: 20px; }
+  .form { gap: 14px; }
+  .form-row { gap: 14px; }
+  .header-inner { height: 62px; }
+  section[id] { scroll-margin-top: 62px; }
+  .faq-q { padding: 16px 18px; font-size: 1rem; }
+  .faq-a p { padding-inline: 18px; }
+  .footer-links { gap: 12px 20px; }
+}
+
+@media (max-width: 400px) {
+  .container { width: calc(100% - 24px); }
+  .stats { gap: 16px; justify-content: space-between; }
+  .stats strong { font-size: 1.5rem; }
+  .hero-actions .btn { flex: 1; text-align: center; padding-inline: 16px; }
+  .brand { font-size: 1.15rem; }
+  .brand img { width: 34px; height: 34px; }
+  .hero h1 { font-size: 1.85rem; }
+  .hero p { font-size: 1rem; }
+  .hero-visual { width: 72%; }
+  .section-title { font-size: 1.6rem; }
+}

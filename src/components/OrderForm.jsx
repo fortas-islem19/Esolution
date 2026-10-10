@@ -54,13 +54,16 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
           <div className="form-row">
             <label>
               الاسم الكامل *
-              <input name="name" value={form.name} onChange={handleChange} required />
+              <input name="name" autoComplete="name" value={form.name} onChange={handleChange} required />
             </label>
             <label>
               رقم الهاتف *
               <input
                 name="phone"
                 type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                dir="ltr"
                 value={form.phone}
                 onChange={handleChange}
                 pattern="0[5-7][0-9 ]{8,11}"
@@ -99,6 +102,9 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
             <input
               name="accountLink"
               type="url"
+              inputMode="url"
+              autoCapitalize="off"
+              dir="ltr"
               value={form.accountLink}
               onChange={handleChange}
               placeholder="https://..."
