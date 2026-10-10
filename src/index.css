@@ -301,3 +301,29 @@ h1, h2 { letter-spacing: -0.01em; }
   font-family: 'Alexandria', sans-serif; font-size: 2.4rem; font-weight: 800;
 }
 .thanks-note { color: var(--muted); margin-bottom: 20px; }
+
+/* حركة ظهور صفحة الشكر */
+.thanks-card { animation: thanksIn 0.6s cubic-bezier(.2,.7,.2,1) both; }
+.thanks-icon { animation: popIn 0.5s 0.35s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes thanksIn { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: none; } }
+
+/* ---------- الأسئلة الشائعة ---------- */
+.faq-list { max-width: 760px; margin: 0 auto; display: grid; gap: 14px; }
+.faq-item { padding: 0; overflow: hidden; transition: border-color 0.3s; }
+.faq-item.is-open { border-color: var(--primary-light); }
+.faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 20px 24px; background: none; border: 0; cursor: pointer; text-align: start;
+  font: inherit; font-weight: 700; font-size: 1.05rem; color: var(--text);
+}
+.faq-icon {
+  flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--bg-alt); color: var(--primary-dark); font-size: 1.4rem; line-height: 1;
+  transition: transform 0.3s, background 0.3s, color 0.3s;
+}
+.faq-item.is-open .faq-icon { transform: rotate(45deg); background: var(--gradient); color: #fff; }
+.faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+.faq-item.is-open .faq-a { grid-template-rows: 1fr; }
+.faq-a p { overflow: hidden; padding: 0 24px; color: var(--muted); transition: padding 0.35s ease; }
+.faq-item.is-open .faq-a p { padding-bottom: 20px; }

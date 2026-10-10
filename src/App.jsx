@@ -6,6 +6,7 @@ import Hero from './components/Hero'
 import Offers from './components/Offers'
 import Testimonials from './components/Testimonials'
 import OrderForm from './components/OrderForm'
+import Faq from './components/Faq'
 import Footer from './components/Footer'
 import ThankYou from './components/ThankYou'
 
@@ -51,6 +52,7 @@ export default function App() {
         <Offers onChoose={chooseOffer} />
         <Testimonials />
         <OrderForm selectedOffer={selectedOffer} setSelectedOffer={setSelectedOffer} onSuccess={goToThanks} />
+        <Faq />
       </main>
       <Footer />
     </>
