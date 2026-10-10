@@ -5,7 +5,6 @@
 
 export const COMPANY = {
   name: 'Esolutions',
-  slogan: 'انطلق بحساباتك نحو القمة',
   phone: '0558013034', // ← ضع رقم هاتفك هنا
   email: 'contact@esolutions.dz', // ← ضع بريدك هنا
   facebook: 'https://www.facebook.com/profile.php?id=61581861072274', // ← رابط صفحتك
@@ -19,5 +18,10 @@ const DEFAULT_GOOGLE_SCRIPT_URL =
 
 export const GOOGLE_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || DEFAULT_GOOGLE_SCRIPT_URL
 
-// المنصات التي تظهر في الاستمارة
-export const PLATFORMS = ['فيسبوك', 'إنستغرام', 'تيك توك', 'يوتيوب']
+// المنصات التي تظهر في الاستمارة (الاسم العربي هو الذي يُسجَّل في Google Sheets)
+export const PLATFORMS = [
+  { id: 'facebook', ar: 'فيسبوك', fr: 'Facebook' },
+  { id: 'instagram', ar: 'إنستغرام', fr: 'Instagram' },
+  { id: 'tiktok', ar: 'تيك توك', fr: 'TikTok' },
+  { id: 'youtube', ar: 'يوتيوب', fr: 'YouTube' },
+]

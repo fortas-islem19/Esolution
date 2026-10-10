@@ -1,68 +1,76 @@
 // ============================================================
-//  العروض والأسعار
+//  العروض والأسعار (بالعربية والفرنسية)
 //  لإضافة عرض جديد: انسخ أي كائن { ... } والصقه وغيّر قيمه
 //  - id: رقم فريد لكل عرض
+//  - title: اسم العرض باللغتين (الاسم العربي هو الذي يُسجَّل في Google Sheets)
 //  - subscribers: عدد المشتركين
 //  - price: السعر بالدينار الجزائري
 //  - popular: true لإبراز العرض كـ "الأكثر طلباً" (عرض واحد فقط)
 //  - features: المزايا (تأكد أنها مطابقة لما تقدمه فعلاً)
 // ============================================================
 
+// المزايا المتكررة (باللغتين)
+const START_24H = { ar: 'بدء التنفيذ خلال 24 ساعة', fr: 'Démarrage sous 24 h' }
+const WHATSAPP = { ar: 'دعم عبر الواتساب', fr: 'Support via WhatsApp' }
+const PRIORITY = { ar: 'أولوية في الدعم', fr: 'Support prioritaire' }
+const GRADUAL = { ar: 'تسليم تدريجي طبيعي', fr: 'Livraison progressive et naturelle' }
+const PERSONAL = { ar: 'متابعة شخصية للطلب', fr: 'Suivi personnalisé de la commande' }
+
 export const OFFERS = [
   {
     id: 1,
-    title: 'التجربة 1000 مشترك',
+    title: { ar: 'التجربة 1000 مشترك', fr: 'Essai 1 000 abonnés' },
     subscribers: 1000,
     price: 700,
-    features: ['بدء التنفيذ خلال 24 ساعة', 'دعم عبر الواتساب'],
+    features: [START_24H, WHATSAPP],
     popular: false,
   },
   {
     id: 2,
-    title: ' البداية 2000 مشترك',
+    title: { ar: 'البداية 2000 مشترك', fr: 'Débutant 2 000 abonnés' },
     subscribers: 2000,
     price: 1300,
-    features: ['بدء التنفيذ خلال 24 ساعة', 'دعم عبر الواتساب'],
+    features: [START_24H, WHATSAPP],
     popular: false,
   },
   {
     id: 3,
-    title: 'الانطلاقة 5000 مشترك',
+    title: { ar: 'الانطلاقة 5000 مشترك', fr: 'Lancement 5 000 abonnés' },
     subscribers: 5000,
     price: 3000,
-    features: ['بدء التنفيذ خلال 24 ساعة', 'دعم عبر الواتساب'],
+    features: [START_24H, WHATSAPP],
     popular: false,
   },
   {
     id: 4,
-    title: 'الصاروخ 10000 مشترك',
+    title: { ar: 'الصاروخ 10000 مشترك', fr: 'Fusée 10 000 abonnés' },
     subscribers: 10000,
     price: 5500,
-    features: ['بدء التنفيذ خلال 24 ساعة', 'أولوية في الدعم'],
+    features: [START_24H, PRIORITY],
     popular: true,
   },
   {
     id: 5,
-    title: 'التحليق 20000 مشترك',
+    title: { ar: 'التحليق 20000 مشترك', fr: 'Envol 20 000 abonnés' },
     subscribers: 20000,
     price: 10000,
-    features: ['بدء التنفيذ خلال 24 ساعة', 'أولوية في الدعم'],
+    features: [START_24H, PRIORITY],
     popular: false,
   },
   {
     id: 6,
-    title: 'الاحتراف 50000 مشترك',
+    title: { ar: 'الاحتراف 50000 مشترك', fr: 'Pro 50 000 abonnés' },
     subscribers: 50000,
     price: 23000,
-    features: ['تسليم تدريجي طبيعي', 'أولوية في الدعم'],
+    features: [GRADUAL, PRIORITY],
     popular: false,
   },
   {
     id: 7,
-    title: 'النخبة 100000 مشترك',
+    title: { ar: 'النخبة 100000 مشترك', fr: 'Élite 100 000 abonnés' },
     subscribers: 100000,
     price: 42000,
-    features: ['تسليم تدريجي طبيعي', 'متابعة شخصية للطلب'],
+    features: [GRADUAL, PERSONAL],
     popular: false,
   },
 ]

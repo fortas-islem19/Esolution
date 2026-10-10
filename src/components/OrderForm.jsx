@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { OFFERS } from '../data/offers'
 import { PLATFORMS } from '../config'
+import { useLang } from '../i18n/LanguageContext'
 import { sendToGoogleSheets } from '../services/googleSheets'
 import Reveal from './Reveal'
 
@@ -26,20 +27,22 @@ function normalizePhone(value) {
   return digits
 }
 
+// يرجع نوع الخطأ (نصه موجود في translations.js ← form.phoneErrors)، أو '' إذا كان الرقم صحيحاً
 function phoneError(value) {
   const phone = normalizePhone(value)
-  if (!phone) return 'رقم الهاتف مطلوب'
-  if (!/^\d+$/.test(phone)) return 'رقم الهاتف يجب أن يحتوي على أرقام فقط'
-  if (!/^0[567]/.test(phone)) return 'رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07'
-  if (phone.length !== 10) return 'رقم الهاتف يجب أن يتكون من 10 أرقام (مثال: 0555123456)'
+  if (!phone) return 'required'
+  if (!/^\d+$/.test(phone)) return 'digits'
+  if (!/^0[567]/.test(phone)) return 'prefix'
+  if (phone.length !== 10) return 'length'
   return ''
 }
 
 export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }) {
+  const { t, tr } = useLang()
   const [form, setForm] = useState(EMPTY_FORM)
   // status: 'idle' عادي | 'sending' جاري الإرسال | 'error' خطأ
   const [status, setStatus] = useState('idle')
-  // رسالة خطأ رقم الهاتف (فارغة = الرقم صحيح)
+  // نوع خطأ رقم الهاتف (فارغ = الرقم صحيح)
   const [phoneMsg, setPhoneMsg] = useState('')
 
   // تحديث أي حقل عند الكتابة فيه (حسب الخاصية name)
@@ -60,10 +63,19 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
       return
     }
 
+    // نسجّل الأسماء العربية في Google Sheets مهما كانت لغة الزائر
+    const offer = OFFERS.find((o) => String(o.id) === selectedOffer)
+    const platform = PLATFORMS.find((p) => p.id === form.platform)
+
     setStatus('sending')
     try {
-      sendToGoogleSheets({ ...form, phone: normalizePhone(form.phone), offer: selectedOffer })
-      window.fbq?.('track', 'Lead', { content_name: selectedOffer })
+      sendToGoogleSheets({
+        ...form,
+        phone: normalizePhone(form.phone),
+        platform: platform.ar,
+        offer: offer.title.ar,
+      })
+      window.fbq?.('track', 'Lead', { content_name: offer.title.ar })
       setForm(EMPTY_FORM)
       setSelectedOffer('')
       setStatus('idle')
@@ -78,20 +90,20 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
     <section className="section section-alt" id="order">
       <div className="container">
         <Reveal>
-          <span className="eyebrow">الطلب</span>
-          <h2 className="section-title">اطلب الخدمة الآن</h2>
-          <p className="section-sub">املأ الاستمارة وسنتواصل معك في أقرب وقت</p>
+          <span className="eyebrow">{t.form.eyebrow}</span>
+          <h2 className="section-title">{t.form.title}</h2>
+          <p className="section-sub">{t.form.sub}</p>
         </Reveal>
 
         <Reveal delay={150}>
         <form className="card form" onSubmit={handleSubmit}>
           <div className="form-row">
             <label>
-              الاسم الكامل *
+              {t.form.name}
               <input name="name" autoComplete="name" value={form.name} onChange={handleChange} required />
             </label>
             <label>
-              رقم الهاتف *
+              {t.form.phone}
               <input
                 id="phone"
                 name="phone"
@@ -109,27 +121,27 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
                 aria-describedby="phone-error"
                 required
               />
-              {phoneMsg && <span id="phone-error" className="field-error">{phoneMsg}</span>}
+              {phoneMsg && <span id="phone-error" className="field-error">{t.form.phoneErrors[phoneMsg]}</span>}
             </label>
           </div>
 
           <div className="form-row">
             <label>
-              المنصة *
+              {t.form.platform}
               <select name="platform" value={form.platform} onChange={handleChange} required>
-                <option value="">-- اختر المنصة --</option>
+                <option value="">{t.form.choosePlatform}</option>
                 {PLATFORMS.map((p) => (
-                  <option key={p}>{p}</option>
+                  <option key={p.id} value={p.id}>{tr(p)}</option>
                 ))}
               </select>
             </label>
             <label>
-              العرض *
+              {t.form.offer}
               <select value={selectedOffer} onChange={(e) => setSelectedOffer(e.target.value)} required>
-                <option value="">-- اختر العرض --</option>
+                <option value="">{t.form.chooseOffer}</option>
                 {OFFERS.map((o) => (
-                  <option key={o.id} value={o.title}>
-                    {o.title} — {o.subscribers.toLocaleString('en-US')} مشترك ({o.price.toLocaleString('en-US')} دج)
+                  <option key={o.id} value={String(o.id)}>
+                    {tr(o.title)} — {o.price.toLocaleString('en-US')} {t.offers.currency}
                   </option>
                 ))}
               </select>
@@ -137,7 +149,7 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
           </div>
 
           <label>
-            رابط الحساب أو الصفحة *
+            {t.form.link}
             <input
               name="accountLink"
               type="url"
@@ -152,15 +164,15 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
           </label>
 
           <label>
-            ملاحظات (اختياري)
+            {t.form.notes}
             <textarea name="notes" rows="3" value={form.notes} onChange={handleChange} />
           </label>
 
           <button className="btn btn-block" disabled={status === 'sending'}>
-            {status === 'sending' ? <><span className="spinner" /> جاري الإرسال...</> : 'إرسال الطلب 🚀'}
+            {status === 'sending' ? <><span className="spinner" /> {t.form.sending}</> : t.form.submit}
           </button>
 
-          {status === 'error' && <p className="msg error">❌ حدث خطأ، حاول مرة أخرى أو اتصل بنا.</p>}
+          {status === 'error' && <p className="msg error">{t.form.error}</p>}
         </form>
         </Reveal>
       </div>

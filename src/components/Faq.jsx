@@ -1,9 +1,11 @@
 // قسم الأسئلة الشائعة: الضغط على السؤال يفتح الجواب
 import { useState } from 'react'
 import { FAQ } from '../data/faq'
+import { useLang } from '../i18n/LanguageContext'
 import Reveal from './Reveal'
 
 export default function Faq() {
+  const { t, tr } = useLang()
   // رقم السؤال المفتوح حالياً (null = كلها مغلقة)
   const [openId, setOpenId] = useState(null)
 
@@ -11,9 +13,9 @@ export default function Faq() {
     <section className="section" id="faq">
       <div className="container">
         <Reveal>
-          <span className="eyebrow">أسئلة</span>
-          <h2 className="section-title">الأسئلة الشائعة</h2>
-          <p className="section-sub">إجابات على أكثر الأسئلة التي تصلنا</p>
+          <span className="eyebrow">{t.faq.eyebrow}</span>
+          <h2 className="section-title">{t.faq.title}</h2>
+          <p className="section-sub">{t.faq.sub}</p>
         </Reveal>
 
         <div className="faq-list">
@@ -27,11 +29,11 @@ export default function Faq() {
                     aria-expanded={isOpen}
                     onClick={() => setOpenId(isOpen ? null : item.id)}
                   >
-                    <span>{item.question}</span>
+                    <span>{tr(item.question)}</span>
                     <span className="faq-icon" aria-hidden="true">+</span>
                   </button>
                   <div className="faq-a">
-                    <p>{item.answer}</p>
+                    <p>{tr(item.answer)}</p>
                   </div>
                 </div>
               </Reveal>

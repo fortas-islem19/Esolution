@@ -376,3 +376,27 @@ a, button, select { -webkit-tap-highlight-color: transparent; }
 .form input.invalid { border-color: #d92d20; background: #fffafa; }
 .form input.invalid:focus { border-color: #d92d20; box-shadow: 0 0 0 4px rgba(217, 45, 32, 0.15); }
 .field-error { color: #b42318; font-size: 0.85rem; font-weight: 600; animation: fadeUp 0.3s forwards; }
+
+/* ---------- زر تغيير اللغة ---------- */
+.lang-switch {
+  font: inherit; font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  padding: 6px 14px; border-radius: 999px;
+  background: #fff; color: var(--primary-dark); border: 1.5px solid var(--border);
+  transition: border-color 0.2s, background 0.2s;
+}
+.lang-switch:hover { border-color: var(--primary); background: var(--bg-alt); }
+.lang-switch[lang='ar'] { font-family: 'IBM Plex Sans Arabic', sans-serif; }
+@media (max-width: 768px) {
+  .nav { gap: 10px; }
+  .lang-switch { padding: 6px 12px; font-size: 0.85rem; }
+}
+@media (max-width: 359px) {
+  .brand span { display: none; }
+}
+
+/* ---------- تعديلات اتجاه الفرنسية (من اليسار لليمين) ---------- */
+.nav a:not(.btn)::after { right: auto; inset-inline-start: 0; }
+.spinner { margin-left: 0; margin-inline-end: 6px; }
+[dir='ltr'] .offer:hover li { transform: translateX(4px); }
+[dir='ltr'] .form input[dir='ltr'] { text-align: left; }
+[dir='ltr'] .quote-mark { left: auto; right: 16px; }

@@ -1,7 +1,10 @@
 // تذييل الصفحة: معلومات التواصل
 import { COMPANY } from '../config'
+import { useLang } from '../i18n/LanguageContext'
 
 export default function Footer() {
+  const { t } = useLang()
+
   return (
     <footer className="footer">
       <div className="container footer-inner">
@@ -10,12 +13,12 @@ export default function Footer() {
           <span>{COMPANY.name}</span>
         </div>
         <div className="footer-links">
-          <span>📞 {COMPANY.phone}</span>
-          <span>✉️ {COMPANY.email}</span>
-          <a href={COMPANY.facebook} target="_blank" rel="noreferrer">فيسبوك</a>
-          <a href={COMPANY.instagram} target="_blank" rel="noreferrer">إنستغرام</a>
+          <span dir="ltr">📞 {COMPANY.phone}</span>
+          <span dir="ltr">✉️ {COMPANY.email}</span>
+          <a href={COMPANY.facebook} target="_blank" rel="noreferrer">{t.footer.facebook}</a>
+          <a href={COMPANY.instagram} target="_blank" rel="noreferrer">{t.footer.instagram}</a>
         </div>
-        <p className="copy">© {new Date().getFullYear()} {COMPANY.name} — جميع الحقوق محفوظة</p>
+        <p className="copy">© {new Date().getFullYear()} {COMPANY.name} — {t.footer.rights}</p>
       </div>
     </footer>
   )
