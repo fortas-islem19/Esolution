@@ -19,9 +19,10 @@ const DEFAULT_GOOGLE_SCRIPT_URL =
 export const GOOGLE_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || DEFAULT_GOOGLE_SCRIPT_URL
 
 // المنصات التي تظهر في الاستمارة (الاسم العربي هو الذي يُسجَّل في Google Sheets)
+// لإعادة تفعيل منصة: احذف // من بداية سطرها
 export const PLATFORMS = [
   { id: 'facebook', ar: 'فيسبوك', fr: 'Facebook' },
-  { id: 'instagram', ar: 'إنستغرام', fr: 'Instagram' },
-  { id: 'tiktok', ar: 'تيك توك', fr: 'TikTok' },
-  { id: 'youtube', ar: 'يوتيوب', fr: 'YouTube' },
+  // { id: 'instagram', ar: 'إنستغرام', fr: 'Instagram' },
+  // { id: 'tiktok', ar: 'تيك توك', fr: 'TikTok' },
+  // { id: 'youtube', ar: 'يوتيوب', fr: 'YouTube' },
 ]

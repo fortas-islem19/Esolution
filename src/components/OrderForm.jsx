@@ -10,7 +10,7 @@ import Reveal from './Reveal'
 const EMPTY_FORM = {
   name: '',
   phone: '',
-  platform: '',
+  platform: PLATFORMS.length === 1 ? PLATFORMS[0].id : '', // منصة واحدة فقط ← تُختار تلقائياً
   accountLink: '',
   notes: '',
 }
