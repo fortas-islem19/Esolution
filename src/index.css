@@ -371,3 +371,8 @@ a, button, select { -webkit-tap-highlight-color: transparent; }
   .hero-visual { width: 72%; }
   .section-title { font-size: 1.6rem; }
 }
+
+/* ---------- أخطاء الحقول ---------- */
+.form input.invalid { border-color: #d92d20; background: #fffafa; }
+.form input.invalid:focus { border-color: #d92d20; box-shadow: 0 0 0 4px rgba(217, 45, 32, 0.15); }
+.field-error { color: #b42318; font-size: 0.85rem; font-weight: 600; animation: fadeUp 0.3s forwards; }

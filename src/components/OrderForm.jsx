@@ -14,21 +14,55 @@ const EMPTY_FORM = {
   notes: '',
 }
 
+// ------------------------------------------------------------
+//  التحقق من رقم الهاتف (أرقام الجوال الجزائرية)
+//  يقبل: 0555123456 أو 055 512 34 56 أو +213555123456 أو 00213555123456
+//  ويحوّلها كلها إلى الشكل: 0555123456
+// ------------------------------------------------------------
+function normalizePhone(value) {
+  let digits = value.replace(/[\s.\-()]/g, '')
+  if (digits.startsWith('+213')) digits = '0' + digits.slice(4)
+  else if (digits.startsWith('00213')) digits = '0' + digits.slice(5)
+  return digits
+}
+
+function phoneError(value) {
+  const phone = normalizePhone(value)
+  if (!phone) return 'رقم الهاتف مطلوب'
+  if (!/^\d+$/.test(phone)) return 'رقم الهاتف يجب أن يحتوي على أرقام فقط'
+  if (!/^0[567]/.test(phone)) return 'رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07'
+  if (phone.length !== 10) return 'رقم الهاتف يجب أن يتكون من 10 أرقام (مثال: 0555123456)'
+  return ''
+}
+
 export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }) {
   const [form, setForm] = useState(EMPTY_FORM)
   // status: 'idle' عادي | 'sending' جاري الإرسال | 'error' خطأ
   const [status, setStatus] = useState('idle')
+  // رسالة خطأ رقم الهاتف (فارغة = الرقم صحيح)
+  const [phoneMsg, setPhoneMsg] = useState('')
 
   // تحديث أي حقل عند الكتابة فيه (حسب الخاصية name)
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setForm({ ...form, [name]: value })
+    // إذا كان هناك خطأ ظاهر، نتحقق مباشرة أثناء التصحيح
+    if (name === 'phone' && phoneMsg) setPhoneMsg(phoneError(value))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault() // منع إعادة تحميل الصفحة
+
+    const error = phoneError(form.phone)
+    if (error) {
+      setPhoneMsg(error)
+      document.getElementById('phone').focus()
+      return
+    }
+
     setStatus('sending')
     try {
-      sendToGoogleSheets({ ...form, offer: selectedOffer })
+      sendToGoogleSheets({ ...form, phone: normalizePhone(form.phone), offer: selectedOffer })
       window.fbq?.('track', 'Lead', { content_name: selectedOffer })
       setForm(EMPTY_FORM)
       setSelectedOffer('')
@@ -59,18 +93,23 @@ export default function OrderForm({ selectedOffer, setSelectedOffer, onSuccess }
             <label>
               رقم الهاتف *
               <input
+                id="phone"
                 name="phone"
                 type="tel"
                 inputMode="tel"
                 autoComplete="tel"
                 dir="ltr"
+                maxLength={20}
                 value={form.phone}
                 onChange={handleChange}
-                pattern="0[5-7][0-9 ]{8,11}"
-                title="مثال: 0555123456"
+                onBlur={() => form.phone && setPhoneMsg(phoneError(form.phone))}
                 placeholder="05XXXXXXXX"
+                className={phoneMsg ? 'invalid' : ''}
+                aria-invalid={!!phoneMsg}
+                aria-describedby="phone-error"
                 required
               />
+              {phoneMsg && <span id="phone-error" className="field-error">{phoneMsg}</span>}
             </label>
           </div>
 
