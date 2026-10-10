@@ -12,9 +12,12 @@ export const COMPANY = {
   instagram: 'https://www.instagram.com/e_solutions.agency/', // ← رابط حسابك
 }
 
-// رابط Google Apps Script (يُقرأ من ملف .env)
+// رابط Google Apps Script (يُقرأ من ملف .env، وإلا يُستخدم الرابط الافتراضي)
 // راجع ملف README.md لمعرفة طريقة الحصول عليه
-export const GOOGLE_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || ''
+const DEFAULT_GOOGLE_SCRIPT_URL =
+  'https://script.google.com/macros/s/AKfycbx8PjsSIN6TVfmVFcSXKrvX3qrJmFNGvLo-OGs74axcdfxTpyUBrAcVfFkoAlcZ4gWJQw/exec'
+
+export const GOOGLE_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || DEFAULT_GOOGLE_SCRIPT_URL
 
 // المنصات التي تظهر في الاستمارة
 export const PLATFORMS = ['فيسبوك', 'إنستغرام', 'تيك توك', 'يوتيوب']
