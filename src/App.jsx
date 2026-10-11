@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Offers from './components/Offers'
-import Testimonials from './components/Testimonials'
+// import Testimonials from './components/Testimonials' // قسم الآراء معطّل مؤقتاً
 import OrderForm from './components/OrderForm'
 import Faq from './components/Faq'
 import Footer from './components/Footer'
@@ -50,7 +50,7 @@ export default function App() {
       <main>
         <Hero />
         <Offers onChoose={chooseOffer} />
-        <Testimonials />
+        {/* <Testimonials /> */}
         <OrderForm selectedOffer={selectedOffer} setSelectedOffer={setSelectedOffer} onSuccess={goToThanks} />
         <Faq />
       </main>
