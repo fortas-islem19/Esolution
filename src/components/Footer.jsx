@@ -13,7 +13,6 @@ export default function Footer() {
           <span>{COMPANY.name}</span>
         </div>
         <div className="footer-links">
-          <span dir="ltr">📞 {COMPANY.phone}</span>
           <span dir="ltr">✉️ {COMPANY.email}</span>
           <a href={COMPANY.facebook} target="_blank" rel="noreferrer">{t.footer.facebook}</a>
           <a href={COMPANY.instagram} target="_blank" rel="noreferrer">{t.footer.instagram}</a>

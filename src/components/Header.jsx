@@ -25,7 +25,7 @@ export default function Header() {
         </a>
         <nav className="nav">
           <a href="#offers">{t.nav.offers}</a>
-          <a href="#testimonials">{t.nav.testimonials}</a>
+          {/* <a href="#testimonials">{t.nav.testimonials}</a> */}
           <a href="#faq">{t.nav.faq}</a>
           <button className="lang-switch" onClick={() => setLang(otherLang)} lang={otherLang}>
             {t.nav.switchTo}
